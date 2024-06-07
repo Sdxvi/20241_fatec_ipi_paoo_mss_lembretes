@@ -26,6 +26,7 @@ app.post('/eventos', async (req, res) => {
   // if (funcoes[req.body.type])
   //   funcoes[req.body.type](req.body.payload)
   try{
+    console.log(req.body)
     funcoes[req.body.type](req.body.payload)
   } 
   catch(e){} 
