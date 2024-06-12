@@ -16,13 +16,16 @@ app.post('/eventos', async (req, res) => {
   console.log(evento)
   try {
     // Repassar eventos para os microsserviços interessados
+    if (evento.type === 'LembreteClassificado'){
+      await axios.post('http://localhost:4000/eventos', evento) //mss de lembrete
+    }
     if (evento.type === 'ObservacaoClassificada') {
       await axios.post('http://localhost:5000/eventos', evento) // mss de observações
     }
-    if (evento.type !== 'ObservacaoClassificada') {
+    if (evento.type !== 'ObservacaoClassificada' && evento.type !== 'LembreteClassificado') {
       await axios.post('http://localhost:6000/eventos', evento) // mss de consulta
     }
-    if (evento.type === 'ObservacaoCriada') {
+    if (evento.type === 'ObservacaoCriada' || evento.type === 'LembreteCriado') {
       await axios.post('http://localhost:7000/eventos', evento) // mss de classificação
     }
   } catch (e) {
